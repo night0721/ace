@@ -64,7 +64,7 @@ int main()
 	    }
 
 	    printf("\nHit (h) or stand (s)? ");
-		fflush(stdout);
+		fflush(STDOUT_FILENO);
 
 		char action;
 		read(STDIN_FILENO, &action, 1);
