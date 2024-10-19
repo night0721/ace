@@ -25,7 +25,6 @@ int main()
 
 	card player_hand[10], cpu_hand[10];
 	int player_num_cards = 0, cpu_num_cards = 0;
-	char action;
 
 	/* Set terminal to return read syscall without enter */
 	struct termios new_termios;
@@ -64,7 +63,7 @@ int main()
 	    }
 
 	    printf("\nHit (h) or stand (s)? ");
-		fflush(STDOUT_FILENO);
+		fflush(stdout);
 
 		char action;
 		read(STDIN_FILENO, &action, 1);
@@ -92,15 +91,15 @@ int main()
 	
 	/* Determine win or lose */
 	if (player_score > 21) {
-	    printf("\033[38;2;255;0;0mComputer wins!\033[0m\n", cpu_score);
+	    printf("\033[38;2;255;0;0mComputer wins!\033[0m\n");
 	} else if (cpu_score > 21) {
-	    printf("\033[38;2;0;255;0mYou win!\033[0m\n", player_score);
+	    printf("\033[38;2;0;255;0mYou win!\033[0m\n");
 	} else if (player_score > cpu_score) {
-	    printf("\033[38;2;0;255;0mYou win!\033[0m\n", player_score);
+	    printf("\033[38;2;0;255;0mYou win!\033[0m\n");
 	} else if (player_score < cpu_score) {
-	    printf("\033[38;2;255;0;0mComputer wins!\033[0m\n", cpu_score);
+	    printf("\033[38;2;255;0;0mComputer wins!\033[0m\n");
 	} else {
-	    printf("\033[38;2;255;255;0mDraw!\033[0m\n", player_score);
+	    printf("\033[38;2;255;255;0mDraw!\033[0m\n");
 	}
 
 	display_hand(player_hand, player_num_cards, 1, player_score);
