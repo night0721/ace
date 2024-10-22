@@ -3,7 +3,6 @@
 
 VERSION = 1.0
 TARGET = ace
-MANPAGE = $(TARGET).1
 PREFIX ?= /usr/local
 BINDIR = $(PREFIX)/bin
 
