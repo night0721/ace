@@ -1,15 +1,13 @@
 .POSIX:
 .SUFFIXES:
 
-CC = cc
 VERSION = 1.0
 TARGET = ace
 MANPAGE = $(TARGET).1
 PREFIX ?= /usr/local
 BINDIR = $(PREFIX)/bin
 
-# Flags
-CFLAGS = -O3 -march=native -mtune=native -pipe -s -std=c99 -flto -pedantic -Wall -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600
+CFLAGS = -O3 -march=native -mtune=native -pipe -s -std=c99 -flto -pedantic -Wall
 
 SRC = ace.c
 
@@ -29,10 +27,10 @@ install: $(TARGET)
 	chmod 755 $(DESTDIR)$(BINDIR)/$(TARGET)
 
 uninstall:
-	$(RM) $(DESTDIR)$(BINDIR)/$(TARGET)
+	rm $(DESTDIR)$(BINDIR)/$(TARGET)
 
 clean:
-	$(RM) $(TARGET)
+	rm $(TARGET)
 
 all: $(TARGET)
 
