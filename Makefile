@@ -6,7 +6,7 @@ TARGET = ace
 PREFIX ?= /usr/local
 BINDIR = $(PREFIX)/bin
 
-CFLAGS = -O3 -march=native -mtune=native -pipe -s -std=c99 -flto -pedantic -Wall
+CFLAGS = -Os -march=native -mtune=native -pipe -s -std=c99 -flto -pedantic -Wall
 
 SRC = ace.c
 

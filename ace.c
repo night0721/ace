@@ -13,13 +13,13 @@ typedef struct {
 	int suit; /* 0 to 3 (Hearts, Spades, Diamonds, Clubs) */
 } card;
 
-card deal_card();
+card deal_card(void);
 int calculate_score(card hand[], int num_cards);
 void display_hand(card hand[], int num_cards, int is_player, int total);
 
 struct termios orig_termios;
 
-int main()
+int main(void)
 {
 	srand(time(NULL));
 
@@ -111,7 +111,7 @@ int main()
 	return 0;
 }
 
-card deal_card()
+card deal_card(void)
 {
 	card card;
 	card.value = rand() % 13 + 1;
