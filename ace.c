@@ -6,7 +6,6 @@
 
 #define CLEAR_SCREEN() printf("\033[H\033[J")
 #define MOVE_CURSOR(x, y) printf("\033[%d;%dH", (x), (y))
-#define RESET_COLOR() printf("\033[0m")
 
 typedef struct {
 	int value; /* 1 to 13 (Ace to King) */
@@ -48,7 +47,7 @@ int main(void)
 		CLEAR_SCREEN();
 		MOVE_CURSOR(1, 1);
 		printf("You			   Computer\n");
-		
+
 
 		player_score = calculate_score(player_hand, player_num_cards);
 		cpu_score = calculate_score(cpu_hand, cpu_num_cards);
@@ -56,30 +55,30 @@ int main(void)
 		display_hand(player_hand, player_num_cards, 1, player_score);
 		display_hand(cpu_hand, cpu_num_cards, 0, cpu_score);
 
-	    /* Check if the player has busted */
-	    if (player_score > 21) {
-	        printf("\n\033[38;2;255;0;0mBust! You lose.\033[0m\n");
-	        break;
-	    }
+		/* Check if the player has busted */
+		if (player_score > 21) {
+			printf("\n\033[38;2;255;0;0mBust! You lose.\033[0m\n");
+			break;
+		}
 
-	    printf("\nHit (h) or stand (s)? ");
+		printf("\nHit (h) or stand (s)? ");
 		fflush(stdout);
 
 		char action;
 		read(STDIN_FILENO, &action, 1);
 
-	    if (action == 'h') {
-	        player_hand[player_num_cards++] = deal_card();
-	    } else if (action == 's') {
-	        break;
-	    }
+		if (action == 'h') {
+			player_hand[player_num_cards++] = deal_card();
+		} else if (action == 's') {
+			break;
+		}
 	}
 
 	/* Computer's turn to deal
 	 * Customise here if you want more wins
 	 */
 	while (cpu_score < 17) {
-	    cpu_hand[cpu_num_cards++] = deal_card();
+		cpu_hand[cpu_num_cards++] = deal_card();
 		cpu_score = calculate_score(cpu_hand, cpu_num_cards);
 	}
 
@@ -88,18 +87,18 @@ int main(void)
 
 	player_score = calculate_score(player_hand, player_num_cards);
 	cpu_score = calculate_score(cpu_hand, cpu_num_cards);
-	
+
 	/* Determine win or lose */
 	if (player_score > 21) {
-	    printf("\033[38;2;255;0;0mComputer wins!\033[0m\n");
+		printf("\033[38;2;255;0;0mComputer wins!\033[0m\n");
 	} else if (cpu_score > 21) {
-	    printf("\033[38;2;0;255;0mYou win!\033[0m\n");
+		printf("\033[38;2;0;255;0mYou win!\033[0m\n");
 	} else if (player_score > cpu_score) {
-	    printf("\033[38;2;0;255;0mYou win!\033[0m\n");
+		printf("\033[38;2;0;255;0mYou win!\033[0m\n");
 	} else if (player_score < cpu_score) {
-	    printf("\033[38;2;255;0;0mComputer wins!\033[0m\n");
+		printf("\033[38;2;255;0;0mComputer wins!\033[0m\n");
 	} else {
-	    printf("\033[38;2;255;255;0mDraw!\033[0m\n");
+		printf("\033[38;2;255;255;0mDraw!\033[0m\n");
 	}
 
 	display_hand(player_hand, player_num_cards, 1, player_score);
@@ -124,19 +123,19 @@ int calculate_score(card hand[], int num_cards)
 	int score = 0, num_aces = 0;
 
 	for (int i = 0; i < num_cards; i++) {
-	    if (hand[i].value == 1) {
-	        score += 11;
-	        num_aces++;
-	    } else if (hand[i].value > 10) {
-	        score += 10;
-	    } else {
-	        score += hand[i].value;
-	    }
+		if (hand[i].value == 1) {
+			score += 11;
+			num_aces++;
+		} else if (hand[i].value > 10) {
+			score += 10;
+		} else {
+			score += hand[i].value;
+		}
 	}
 
 	while (score > 21 && num_aces > 0) {
-	    score -= 10;
-	    num_aces--;
+		score -= 10;
+		num_aces--;
 	}
 
 	return score;
@@ -145,49 +144,46 @@ int calculate_score(card hand[], int num_cards)
 void display_hand(card hand[], int num_cards, int is_player, int total)
 {
 	const char *suits[] = {"\033[38;2;255;0;0m♥\033[0m", "\033[38;2;0;0;255m♠\033[0m", "\033[38;2;255;0;255m♦\033[0m", "\033[38;2;0;255;0m♣\033[0m"};
-	
+
 	if (is_player) {
-	    printf("Cards - ");
+		printf("Cards - ");
 	} else {
 		/* Alignment */
-	    MOVE_CURSOR(2, 28);
-	    printf("Cards - ");
+		MOVE_CURSOR(2, 28);
+		printf("Cards - ");
 	}
 
 	for (int i = 0; i < num_cards; i++) {
 		/* Bold */
 		printf("\033[1m");
-	    switch (hand[i].value) {
-	        case 1:
-	            printf("A%s ", suits[hand[i].suit]);
-	            break;
-	        case 11:
-	            printf("J%s ", suits[hand[i].suit]);
-	            break;
-	        case 12:
-	            printf("Q%s ", suits[hand[i].suit]);
-	            break;
-	        case 13:
-	            printf("K%s ", suits[hand[i].suit]);
-	            break;
-	        default:
-	            printf("%d%s ", hand[i].value, suits[hand[i].suit]);
-	    }
-	    RESET_COLOR();
+		switch (hand[i].value) {
+			case 1:
+				printf("A%s ", suits[hand[i].suit]);
+				break;
+			case 11:
+				printf("J%s ", suits[hand[i].suit]);
+				break;
+			case 12:
+				printf("Q%s ", suits[hand[i].suit]);
+				break;
+			case 13:
+				printf("K%s ", suits[hand[i].suit]);
+				break;
+			default:
+				printf("%d%s ", hand[i].value, suits[hand[i].suit]);
+		}
+		/* Reset color */
+		printf("\033[0m");
 	}
 
 	printf("\n");
 	if (is_player) {
-	    printf("Total - ");
+		printf("Total - ");
 	} else {
-	    MOVE_CURSOR(3, 28);
-	    printf("Total - ");
+		MOVE_CURSOR(3, 28);
+		printf("Total - ");
 	}
 
-	/* Bold and inverted colors */
-	printf("\033[1m\033[47;30m"); 
-	printf(" %d ", total);
-	RESET_COLOR(); 
-
-	printf("\n");
+	/* Bold and inverted */
+	printf("\033[1m\033[47;30m %d \033[0m\n", total); 
 }
