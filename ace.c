@@ -57,7 +57,7 @@ int main(void)
 
 		/* Check if the player has busted */
 		if (player_score > 21) {
-			printf("\n\033[38;2;255;0;0mBust! You lose.\033[0m\n");
+			printf("\n\033[31mBust! You lose.\033[m\n");
 			break;
 		}
 
@@ -90,15 +90,15 @@ int main(void)
 
 	/* Determine win or lose */
 	if (player_score > 21) {
-		printf("\033[38;2;255;0;0mComputer wins!\033[0m\n");
+		printf("\033[31mComputer wins!\033[m\n");
 	} else if (cpu_score > 21) {
-		printf("\033[38;2;0;255;0mYou win!\033[0m\n");
+		printf("\033[32mYou win!\033[m\n");
 	} else if (player_score > cpu_score) {
-		printf("\033[38;2;0;255;0mYou win!\033[0m\n");
+		printf("\033[32mYou win!\033[m\n");
 	} else if (player_score < cpu_score) {
-		printf("\033[38;2;255;0;0mComputer wins!\033[0m\n");
+		printf("\033[31mComputer wins!\033[m\n");
 	} else {
-		printf("\033[38;2;255;255;0mDraw!\033[0m\n");
+		printf("\033[33mDraw!\033[m\n");
 	}
 
 	display_hand(player_hand, player_num_cards, 1, player_score);
@@ -143,7 +143,7 @@ int calculate_score(card hand[], int num_cards)
 
 void display_hand(card hand[], int num_cards, int is_player, int total)
 {
-	const char *suits[] = {"\033[38;2;255;0;0m♥\033[0m", "\033[38;2;0;0;255m♠\033[0m", "\033[38;2;255;0;255m♦\033[0m", "\033[38;2;0;255;0m♣\033[0m"};
+	const char *suits[] = {"\033[31m♥\033[m", "\033[34m♠\033[m", "\033[35m♦\033[m", "\033[32m♣\033[m"};
 
 	if (is_player) {
 		printf("Cards - ");
